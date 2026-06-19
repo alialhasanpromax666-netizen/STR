@@ -54,7 +54,6 @@ export default function ProductsManager() {
       createdAt: new Date().toISOString(),
     }
     addProduct(product)
-    saveConfig()
     resetForm()
     setShowAdd(false)
   }
@@ -81,7 +80,6 @@ export default function ProductsManager() {
       stock: form.stock === '' ? null : parseInt(form.stock, 10),
       paymentMethods: formPaymentMethods,
     })
-    saveConfig()
     setEditId(null)
     resetForm()
   }
@@ -93,7 +91,6 @@ export default function ProductsManager() {
 
   function handleDelete(id: string) {
     deleteProduct(id)
-    saveConfig()
     setDeleteConfirm(null)
   }
 
@@ -110,7 +107,6 @@ export default function ProductsManager() {
 
   function toggleActive(product: Product) {
     updateProduct(product.id, { active: !product.active })
-    saveConfig()
   }
 
   return (
