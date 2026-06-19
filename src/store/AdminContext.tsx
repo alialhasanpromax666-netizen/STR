@@ -571,6 +571,8 @@ export function AdminProvider({ children }: { children: ReactNode }) {
   const addProduct = useCallback((product: AppConfig['products'][0]) => {
     setConfig((prev) => {
       const next = { ...prev, products: [...prev.products, product] }
+      saveLocal(next)
+      pushConfig(next)
       return next
     })
   }, [])
@@ -581,6 +583,8 @@ export function AdminProvider({ children }: { children: ReactNode }) {
         ...prev,
         products: prev.products.map((p) => (p.id === id ? { ...p, ...updates } : p)),
       }
+      saveLocal(next)
+      pushConfig(next)
       return next
     })
   }, [])
@@ -588,6 +592,8 @@ export function AdminProvider({ children }: { children: ReactNode }) {
   const deleteProduct = useCallback((id: string) => {
     setConfig((prev) => {
       const next = { ...prev, products: prev.products.filter((p) => p.id !== id) }
+      saveLocal(next)
+      pushConfig(next)
       return next
     })
   }, [])
@@ -595,6 +601,8 @@ export function AdminProvider({ children }: { children: ReactNode }) {
   const addNote = useCallback((note: AdminNote) => {
     setConfig((prev) => {
       const next = { ...prev, notes: [...prev.notes, note] }
+      saveLocal(next)
+      pushConfig(next)
       return next
     })
   }, [])
@@ -605,6 +613,8 @@ export function AdminProvider({ children }: { children: ReactNode }) {
         ...prev,
         notes: prev.notes.map((n) => (n.id === id ? { ...n, ...updates } : n)),
       }
+      saveLocal(next)
+      pushConfig(next)
       return next
     })
   }, [])
@@ -612,6 +622,8 @@ export function AdminProvider({ children }: { children: ReactNode }) {
   const deleteNote = useCallback((id: string) => {
     setConfig((prev) => {
       const next = { ...prev, notes: prev.notes.filter((n) => n.id !== id) }
+      saveLocal(next)
+      pushConfig(next)
       return next
     })
   }, [])
