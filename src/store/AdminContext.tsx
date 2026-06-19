@@ -169,6 +169,7 @@ export function AdminProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true)
   const [adminSessions, setAdminSessions] = useState<AdminSession[]>([])
   const heartbeatRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  const initialLoadDone = useRef(false)
 
   useEffect(() => {
     fetchConfig().then((serverData) => {
@@ -203,8 +204,15 @@ export function AdminProvider({ children }: { children: ReactNode }) {
         saveLocal(merged)
       }
       setLoading(false)
+      initialLoadDone.current = true
     })
   }, [])
+
+  useEffect(() => {
+    if (!initialLoadDone.current) return
+    saveLocal(config)
+    pushConfig(config)
+  }, [config])
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -411,19 +419,13 @@ export function AdminProvider({ children }: { children: ReactNode }) {
   }, [])
 
   const saveConfig = useCallback(() => {
-    setConfig((prev) => {
-      saveLocal(prev)
-      pushConfig(prev)
-      return prev
-    })
+    setConfig((prev) => prev)
   }, [])
 
   const resetConfig = useCallback(() => {
     const defaults = createDefaultConfig()
     if (config.adminPassword) defaults.adminPassword = config.adminPassword
     setConfig(defaults)
-    saveLocal(defaults)
-    pushConfig(defaults)
   }, [config.adminPassword])
 
   const createOrder = useCallback((input: {
@@ -469,8 +471,6 @@ export function AdminProvider({ children }: { children: ReactNode }) {
             : p
         )
       }
-      saveLocal(next)
-      pushConfig(next)
       return next
     })
     return order
@@ -482,7 +482,7 @@ export function AdminProvider({ children }: { children: ReactNode }) {
       if (!order) return prev
       const allowed = STATUS_TRANSITIONS[order.status]
       if (!allowed.includes(status)) return prev
-      const next = {
+      return {
         ...prev,
         orders: prev.orders.map((o) =>
           o.id === id
@@ -490,9 +490,6 @@ export function AdminProvider({ children }: { children: ReactNode }) {
             : o
         ),
       }
-      saveLocal(next)
-      pushConfig(next)
-      return next
     })
   }, [])
 
@@ -591,63 +588,33 @@ export function AdminProvider({ children }: { children: ReactNode }) {
   }, [config.blockedPhones])
 
   const addProduct = useCallback((product: AppConfig['products'][0]) => {
-    setConfig((prev) => {
-      const next = { ...prev, products: [...prev.products, product] }
-      saveLocal(next)
-      pushConfig(next)
-      return next
-    })
+    setConfig((prev) => ({ ...prev, products: [...prev.products, product] }))
   }, [])
 
   const updateProduct = useCallback((id: string, updates: Partial<AppConfig['products'][0]>) => {
-    setConfig((prev) => {
-      const next = {
-        ...prev,
-        products: prev.products.map((p) => (p.id === id ? { ...p, ...updates } : p)),
-      }
-      saveLocal(next)
-      pushConfig(next)
-      return next
-    })
+    setConfig((prev) => ({
+      ...prev,
+      products: prev.products.map((p) => (p.id === id ? { ...p, ...updates } : p)),
+    }))
   }, [])
 
   const deleteProduct = useCallback((id: string) => {
-    setConfig((prev) => {
-      const next = { ...prev, products: prev.products.filter((p) => p.id !== id) }
-      saveLocal(next)
-      pushConfig(next)
-      return next
-    })
+    setConfig((prev) => ({ ...prev, products: prev.products.filter((p) => p.id !== id) }))
   }, [])
 
   const addNote = useCallback((note: AdminNote) => {
-    setConfig((prev) => {
-      const next = { ...prev, notes: [...prev.notes, note] }
-      saveLocal(next)
-      pushConfig(next)
-      return next
-    })
+    setConfig((prev) => ({ ...prev, notes: [...prev.notes, note] }))
   }, [])
 
   const updateNote = useCallback((id: string, updates: Partial<AdminNote>) => {
-    setConfig((prev) => {
-      const next = {
-        ...prev,
-        notes: prev.notes.map((n) => (n.id === id ? { ...n, ...updates } : n)),
-      }
-      saveLocal(next)
-      pushConfig(next)
-      return next
-    })
+    setConfig((prev) => ({
+      ...prev,
+      notes: prev.notes.map((n) => (n.id === id ? { ...n, ...updates } : n)),
+    }))
   }, [])
 
   const deleteNote = useCallback((id: string) => {
-    setConfig((prev) => {
-      const next = { ...prev, notes: prev.notes.filter((n) => n.id !== id) }
-      saveLocal(next)
-      pushConfig(next)
-      return next
-    })
+    setConfig((prev) => ({ ...prev, notes: prev.notes.filter((n) => n.id !== id) }))
   }, [])
 
   const toggleNoteActive = useCallback((id: string) => {
