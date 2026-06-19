@@ -2,7 +2,7 @@ services:
   - type: web
     name: str11
     env: node
-    buildCommand: npm install && npm run build
+    buildCommand: npm install --include=dev && npm run build
     startCommand: npm run serve
     healthCheckPath: /api/health
     envVars:

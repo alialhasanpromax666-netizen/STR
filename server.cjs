@@ -216,7 +216,7 @@ try {
 } catch {}
 
 const PORT = process.env.PORT || 3001
-app.listen(PORT, '127.0.0.1', () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`STR11 server running on port ${PORT}`)
   if (!fs.existsSync(DATA_FILE)) {
     writeData(null)
