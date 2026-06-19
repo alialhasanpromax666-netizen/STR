@@ -61,8 +61,12 @@ export default function AdminLayout({ activeTab, onTabChange, children }: AdminL
           </div>
           <div className="flex items-center gap-1 md:gap-2">
             <span className="caption text-[11px] md:text-xs">
-              USD:
-              <span className="mono font-semibold text-espresso me-1">{config.usdtRate.toLocaleString()}</span>
+              شراء:
+              <span className="mono font-semibold text-emerald me-1">{(config.buyRate || config.usdtRate).toLocaleString()}</span>
+            </span>
+            <span className="caption text-[11px] md:text-xs">
+              بيع:
+              <span className="mono font-semibold text-red me-1">{(config.sellRate || config.usdtRate).toLocaleString()}</span>
             </span>
             <button onClick={toggleLang} className="flex items-center gap-1 px-1.5 md:px-2 py-1 rounded-md text-espresso-muted hover:text-espresso hover:bg-ivory-dark transition-colors text-xs md:text-sm font-heading">
               <GlobeIcon size={12} />

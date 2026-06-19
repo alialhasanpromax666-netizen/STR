@@ -73,6 +73,8 @@ export interface Order {
 
 export interface AppConfig {
   usdtRate: number
+  buyRate: number
+  sellRate: number
   feePercent: number
   adminPassword?: string
   services: ServiceStatus[]
@@ -127,6 +129,8 @@ export const defaultWallets: Wallet[] = [
 export function createDefaultConfig(): AppConfig {
   return {
     usdtRate: 144,
+    buyRate: 146,
+    sellRate: 142,
     feePercent: 0,
     services: defaultServices,
     heroTitle: '',

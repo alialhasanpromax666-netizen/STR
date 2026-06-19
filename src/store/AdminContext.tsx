@@ -31,6 +31,8 @@ interface AdminContextType {
   changePassword: (oldPassword: string, newPassword: string) => Promise<boolean>
   fetchSessions: () => Promise<void>
   updateRate: (rate: number) => void
+  updateBuyRate: (rate: number) => void
+  updateSellRate: (rate: number) => void
   updateFee: (fee: number) => void
   toggleService: (id: string) => void
   toggleMaintenance: (id: string) => void
@@ -86,9 +88,12 @@ function loadLocal(): AppConfig {
     if (saved) {
       const parsed = JSON.parse(saved)
       const defaults = createDefaultConfig()
+      const base = parsed.usdtRate || defaults.usdtRate
       return {
         ...defaults,
         ...parsed,
+        buyRate: parsed.buyRate || base + 2,
+        sellRate: parsed.sellRate || base - 2,
         services: [
           ...defaults.services.map((d) => {
             const existing = (parsed.services ?? []).find((s: { id: string }) => s.id === d.id)
@@ -169,9 +174,12 @@ export function AdminProvider({ children }: { children: ReactNode }) {
     fetchConfig().then((serverData) => {
       if (serverData) {
         const defaults = createDefaultConfig()
+        const base = serverData.usdtRate || defaults.usdtRate
         const merged: AppConfig = {
           ...defaults,
           ...serverData,
+          buyRate: serverData.buyRate || base + 2,
+          sellRate: serverData.sellRate || base - 2,
           services: [
             ...defaults.services.map((d) => {
               const existing = (serverData.services ?? []).find((s) => s.id === d.id)
@@ -279,6 +287,20 @@ export function AdminProvider({ children }: { children: ReactNode }) {
   const updateRate = useCallback((rate: number) => {
     setConfig((prev) => {
       const next = { ...prev, usdtRate: rate }
+      return next
+    })
+  }, [])
+
+  const updateBuyRate = useCallback((rate: number) => {
+    setConfig((prev) => {
+      const next = { ...prev, buyRate: rate }
+      return next
+    })
+  }, [])
+
+  const updateSellRate = useCallback((rate: number) => {
+    setConfig((prev) => {
+      const next = { ...prev, sellRate: rate }
       return next
     })
   }, [])
@@ -638,6 +660,8 @@ export function AdminProvider({ children }: { children: ReactNode }) {
         changePassword,
         fetchSessions,
         updateRate,
+        updateBuyRate,
+        updateSellRate,
         updateFee,
         toggleService,
         toggleMaintenance,

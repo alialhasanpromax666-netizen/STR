@@ -53,7 +53,8 @@ export default function Crypto() {
   const [submitting, setSubmitting] = useState(false)
   const fileRef = useRef<HTMLInputElement>(null)
 
-  const rate = config.usdtRate || 0
+  const buyRate = config.buyRate || config.usdtRate || 0
+  const sellRate = config.sellRate || config.usdtRate || 0
   const feePercent = config.feePercent
   const feeMultiplier = 1 - feePercent / 100
   const numAmount = Math.max(0, parseFloat(amount) || 0)
@@ -134,7 +135,7 @@ export default function Crypto() {
         operator: selectedCrypto.id,
         amount: numAmount,
         usdtAmount: numAmount,
-        sypAmount: numAmount * rate,
+        sypAmount: numAmount * buyRate,
         paymentMethod,
         paymentProof,
         walletAddress: walletAddressValue,
@@ -147,7 +148,7 @@ export default function Crypto() {
         operator: selectedCrypto.id,
         amount: numAmount,
         usdtAmount: usdtAmount,
-        sypAmount: usdtAmount * rate,
+        sypAmount: usdtAmount * sellRate,
         paymentMethod,
         paymentProof,
         walletAddress: receiveInfo,

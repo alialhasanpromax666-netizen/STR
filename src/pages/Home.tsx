@@ -32,7 +32,8 @@ const serviceIcons: Record<string, typeof PhoneIcon> = {
 export default function Home() {
   const { t } = useTranslation()
   const { config } = useAdmin()
-  const rate = config.usdtRate
+  const buyRate = config.buyRate || config.usdtRate
+  const sellRate = config.sellRate || config.usdtRate
 
   const homeServices = config.services.filter((s) => s.active)
 
@@ -59,7 +60,7 @@ export default function Home() {
             <div className="inline-flex flex-wrap items-center justify-center gap-2 sm:gap-3 bg-gold-subtle border border-gold-light rounded-xl px-4 sm:px-6 py-3">
               <span className="caption gold-text">1 USD</span>
               <span className="text-2xl font-bold mono gold-text">
-                <CountUp end={rate} duration={2000} decimals={0} />
+                <CountUp end={buyRate} duration={2000} decimals={0} />
               </span>
               <span className="body-secondary">{t('crypto.syp')}</span>
             </div>
@@ -86,18 +87,19 @@ export default function Home() {
         <NotesBanner section="home" />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           <PriceCard
-            label="USD / SYP"
+            label="شراء USD"
             usdtPrice="1.00"
-            sypPrice={rate.toLocaleString()}
+            sypPrice={buyRate.toLocaleString()}
             trend="up"
             usdtLabel={t('crypto.usdt')}
             sypLabel={t('crypto.syp')}
             className="animate-fade-up stagger-2"
           />
           <PriceCard
-            label="SYP / USD"
-            usdtPrice={(1 / rate).toFixed(6)}
-            sypPrice="1"
+            label="بيع USD"
+            usdtPrice="1.00"
+            sypPrice={sellRate.toLocaleString()}
+            trend="down"
             usdtLabel={t('crypto.usdt')}
             sypLabel={t('crypto.syp')}
             className="animate-fade-up stagger-3"

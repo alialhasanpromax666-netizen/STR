@@ -33,7 +33,7 @@ const iconMap: Record<string, typeof BtcIcon> = {
 
 export default function WalletsManager() {
   const { config, updateWallet, updateWalletLabel, updateWalletCharLimit, toggleWallet, addWallet, deleteWallet, saveConfig } = useAdmin()
-  const { prices } = useCryptoPrices(config.usdtRate)
+  const { prices } = useCryptoPrices(config.buyRate || config.usdtRate)
   const [saved, setSaved] = useState(false)
   const [showAdd, setShowAdd] = useState(false)
   const [newLabel, setNewLabel] = useState('')

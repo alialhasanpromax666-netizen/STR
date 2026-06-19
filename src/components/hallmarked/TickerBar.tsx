@@ -5,11 +5,13 @@ export default function TickerBar() {
   const { t, i18n } = useTranslation()
   const { config } = useAdmin()
   const isRtl = i18n.language === 'ar'
-  const rate = config.usdtRate
+  const buyRate = config.buyRate || config.usdtRate
+  const sellRate = config.sellRate || config.usdtRate
   const feePercent = config.feePercent
 
   const items = [
-    { label: t('crypto.usdt'), value: `1 USD = ${rate.toLocaleString()} ${t('crypto.syp')}${feePercent > 0 ? ` (رسوم ${feePercent}%)` : ''}` },
+    { label: t('crypto.usdt'), value: `شراء: 1 USD = ${buyRate.toLocaleString()} ${t('crypto.syp')}${feePercent > 0 ? ` (رسوم ${feePercent}%)` : ''}` },
+    { label: t('crypto.usdt'), value: `بيع: 1 USD = ${sellRate.toLocaleString()} ${t('crypto.syp')}` },
     { label: t('crypto.usdt'), value: `1 USD = $1.00` },
     { label: t('home.trust.instant'), value: '✓' },
     { label: t('home.trust.secure'), value: '✓' },

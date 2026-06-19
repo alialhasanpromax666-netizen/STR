@@ -39,9 +39,9 @@ export default function ProductPage() {
   const walletAddressValue = getWalValue(paymentMethod)
 
   const sypAmount = useMemo(() => {
-    if (product) return product.priceUSD * quantity * config.usdtRate
+    if (product) return product.priceUSD * quantity * (config.buyRate || config.usdtRate)
     return 0
-  }, [product, quantity, config.usdtRate])
+  }, [product, quantity, config.buyRate, config.usdtRate])
 
   useEffect(() => {
     if (paymentMethod && !product?.paymentMethods.includes(paymentMethod)) {

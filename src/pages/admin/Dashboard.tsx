@@ -34,9 +34,16 @@ export default function Dashboard() {
         <div className="luxury-card p-5">
           <div className="flex items-center gap-3 mb-2">
             <ClockIcon size={18} className="text-gold" />
-            <span className="caption">سعر USD</span>
+            <span className="caption">سعر الشراء</span>
           </div>
-          <p className="h2 mono text-espresso">{config.usdtRate.toLocaleString()} <span className="h4 text-espresso-muted">ل.س</span></p>
+          <p className="h2 mono text-espresso">{(config.buyRate || config.usdtRate).toLocaleString()} <span className="h4 text-espresso-muted">ل.س</span></p>
+        </div>
+        <div className="luxury-card p-5">
+          <div className="flex items-center gap-3 mb-2">
+            <ClockIcon size={18} className="text-gold" />
+            <span className="caption">سعر البيع</span>
+          </div>
+          <p className="h2 mono text-espresso">{(config.sellRate || config.usdtRate).toLocaleString()} <span className="h4 text-espresso-muted">ل.س</span></p>
         </div>
         <div className="luxury-card p-5">
           <div className="flex items-center gap-3 mb-2">

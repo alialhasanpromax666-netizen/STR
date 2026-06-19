@@ -39,7 +39,7 @@ export default function Recharge() {
   const fileRef = useRef<HTMLInputElement>(null)
 
   const isUsdMode = operator === 'sham-cash-usd'
-  const rate = config.usdtRate || 0
+  const rate = config.buyRate || config.usdtRate || 0
   const feePercent = config.feePercent || 0
   const feeMultiplier = 1 + feePercent / 100
   const amounts = isUsdMode ? usdAmounts : sypAmounts
