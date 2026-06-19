@@ -167,7 +167,6 @@ export function AdminProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true)
   const [adminSessions, setAdminSessions] = useState<AdminSession[]>([])
   const heartbeatRef = useRef<ReturnType<typeof setInterval> | null>(null)
-  const initialLoadDone = useRef(false)
 
   useEffect(() => {
     fetchConfig().then((serverData) => {
@@ -202,15 +201,8 @@ export function AdminProvider({ children }: { children: ReactNode }) {
         saveLocal(merged)
       }
       setLoading(false)
-      initialLoadDone.current = true
     })
   }, [])
-
-  useEffect(() => {
-    if (!initialLoadDone.current) return
-    saveLocal(config)
-    pushConfig(config)
-  }, [config])
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -293,6 +285,8 @@ export function AdminProvider({ children }: { children: ReactNode }) {
   const updateRate = useCallback((rate: number) => {
     setConfig((prev) => {
       const next = { ...prev, usdtRate: rate }
+      saveLocal(next)
+      pushConfig(next)
       return next
     })
   }, [])
@@ -300,6 +294,8 @@ export function AdminProvider({ children }: { children: ReactNode }) {
   const updateBuyRate = useCallback((rate: number) => {
     setConfig((prev) => {
       const next = { ...prev, buyRate: rate }
+      saveLocal(next)
+      pushConfig(next)
       return next
     })
   }, [])
@@ -307,6 +303,8 @@ export function AdminProvider({ children }: { children: ReactNode }) {
   const updateSellRate = useCallback((rate: number) => {
     setConfig((prev) => {
       const next = { ...prev, sellRate: rate }
+      saveLocal(next)
+      pushConfig(next)
       return next
     })
   }, [])
@@ -314,6 +312,8 @@ export function AdminProvider({ children }: { children: ReactNode }) {
   const updateFee = useCallback((fee: number) => {
     setConfig((prev) => {
       const next = { ...prev, feePercent: fee }
+      saveLocal(next)
+      pushConfig(next)
       return next
     })
   }, [])
@@ -326,6 +326,8 @@ export function AdminProvider({ children }: { children: ReactNode }) {
           s.id === id ? { ...s, active: !s.active } : s
         ),
       }
+      saveLocal(next)
+      pushConfig(next)
       return next
     })
   }, [])
@@ -338,6 +340,8 @@ export function AdminProvider({ children }: { children: ReactNode }) {
           s.id === id ? { ...s, maintenance: !s.maintenance } : s
         ),
       }
+      saveLocal(next)
+      pushConfig(next)
       return next
     })
   }, [])
@@ -350,6 +354,8 @@ export function AdminProvider({ children }: { children: ReactNode }) {
           s.id === id ? { ...s, ...updates } : s
         ),
       }
+      saveLocal(next)
+      pushConfig(next)
       return next
     })
   }, [])
@@ -360,6 +366,8 @@ export function AdminProvider({ children }: { children: ReactNode }) {
         ...prev,
         services: [...prev.services, service],
       }
+      saveLocal(next)
+      pushConfig(next)
       return next
     })
   }, [])
@@ -370,6 +378,8 @@ export function AdminProvider({ children }: { children: ReactNode }) {
         ...prev,
         services: prev.services.filter((s) => s.id !== id),
       }
+      saveLocal(next)
+      pushConfig(next)
       return next
     })
   }, [])
@@ -384,6 +394,8 @@ export function AdminProvider({ children }: { children: ReactNode }) {
             : s
         ),
       }
+      saveLocal(next)
+      pushConfig(next)
       return next
     })
   }, [])
@@ -398,6 +410,8 @@ export function AdminProvider({ children }: { children: ReactNode }) {
             : s
         ),
       }
+      saveLocal(next)
+      pushConfig(next)
       return next
     })
   }, [])
@@ -405,6 +419,8 @@ export function AdminProvider({ children }: { children: ReactNode }) {
   const updateHeroTitle = useCallback((title: string) => {
     setConfig((prev) => {
       const next = { ...prev, heroTitle: title }
+      saveLocal(next)
+      pushConfig(next)
       return next
     })
   }, [])
@@ -412,17 +428,25 @@ export function AdminProvider({ children }: { children: ReactNode }) {
   const updateHeroSub = useCallback((sub: string) => {
     setConfig((prev) => {
       const next = { ...prev, heroSub: sub }
+      saveLocal(next)
+      pushConfig(next)
       return next
     })
   }, [])
 
   const saveConfig = useCallback(() => {
-    setConfig((prev) => prev)
+    setConfig((prev) => {
+      saveLocal(prev)
+      pushConfig(prev)
+      return prev
+    })
   }, [])
 
   const resetConfig = useCallback(() => {
     const defaults = createDefaultConfig()
     if (config.adminPassword) defaults.adminPassword = config.adminPassword
+    saveLocal(defaults)
+    pushConfig(defaults)
     setConfig(defaults)
   }, [config.adminPassword])
 
@@ -469,6 +493,8 @@ export function AdminProvider({ children }: { children: ReactNode }) {
             : p
         )
       }
+      saveLocal(next)
+      pushConfig(next)
       return next
     })
     return order
@@ -480,7 +506,7 @@ export function AdminProvider({ children }: { children: ReactNode }) {
       if (!order) return prev
       const allowed = STATUS_TRANSITIONS[order.status]
       if (!allowed.includes(status)) return prev
-      return {
+      const next = {
         ...prev,
         orders: prev.orders.map((o) =>
           o.id === id
@@ -488,12 +514,17 @@ export function AdminProvider({ children }: { children: ReactNode }) {
             : o
         ),
       }
+      saveLocal(next)
+      pushConfig(next)
+      return next
     })
   }, [])
 
   const deleteOrder = useCallback((id: string) => {
     setConfig((prev) => {
       const next = { ...prev, orders: prev.orders.filter((o) => o.id !== id) }
+      saveLocal(next)
+      pushConfig(next)
       return next
     })
   }, [])
@@ -504,6 +535,8 @@ export function AdminProvider({ children }: { children: ReactNode }) {
         ...prev,
         wallets: prev.wallets.map((w) => w.id === id ? { ...w, value } : w),
       }
+      saveLocal(next)
+      pushConfig(next)
       return next
     })
   }, [])
@@ -514,6 +547,8 @@ export function AdminProvider({ children }: { children: ReactNode }) {
         ...prev,
         wallets: prev.wallets.map((w) => w.id === id ? { ...w, label } : w),
       }
+      saveLocal(next)
+      pushConfig(next)
       return next
     })
   }, [])
@@ -524,6 +559,8 @@ export function AdminProvider({ children }: { children: ReactNode }) {
         ...prev,
         wallets: prev.wallets.map((w) => w.id === id ? { ...w, charLimit } : w),
       }
+      saveLocal(next)
+      pushConfig(next)
       return next
     })
   }, [])
@@ -534,6 +571,8 @@ export function AdminProvider({ children }: { children: ReactNode }) {
         ...prev,
         wallets: prev.wallets.map((w) => w.id === id ? { ...w, enabled: !w.enabled } : w),
       }
+      saveLocal(next)
+      pushConfig(next)
       return next
     })
   }, [])
@@ -541,6 +580,8 @@ export function AdminProvider({ children }: { children: ReactNode }) {
   const addWallet = useCallback((wallet: AppConfig['wallets'][0]) => {
     setConfig((prev) => {
       const next = { ...prev, wallets: [...prev.wallets, wallet] }
+      saveLocal(next)
+      pushConfig(next)
       return next
     })
   }, [])
@@ -555,6 +596,8 @@ export function AdminProvider({ children }: { children: ReactNode }) {
           allowedWallets: s.allowedWallets.filter((w) => w !== id),
         })),
       }
+      saveLocal(next)
+      pushConfig(next)
       return next
     })
   }, [])
@@ -567,6 +610,8 @@ export function AdminProvider({ children }: { children: ReactNode }) {
           ? prev.blockedPhones
           : [...prev.blockedPhones, phone],
       }
+      saveLocal(next)
+      pushConfig(next)
       return next
     })
   }, [])
@@ -577,6 +622,8 @@ export function AdminProvider({ children }: { children: ReactNode }) {
         ...prev,
         blockedPhones: prev.blockedPhones.filter((p) => p !== phone),
       }
+      saveLocal(next)
+      pushConfig(next)
       return next
     })
   }, [])
@@ -586,33 +633,63 @@ export function AdminProvider({ children }: { children: ReactNode }) {
   }, [config.blockedPhones])
 
   const addProduct = useCallback((product: AppConfig['products'][0]) => {
-    setConfig((prev) => ({ ...prev, products: [...prev.products, product] }))
+    setConfig((prev) => {
+      const next = { ...prev, products: [...prev.products, product] }
+      saveLocal(next)
+      pushConfig(next)
+      return next
+    })
   }, [])
 
   const updateProduct = useCallback((id: string, updates: Partial<AppConfig['products'][0]>) => {
-    setConfig((prev) => ({
-      ...prev,
-      products: prev.products.map((p) => (p.id === id ? { ...p, ...updates } : p)),
-    }))
+    setConfig((prev) => {
+      const next = {
+        ...prev,
+        products: prev.products.map((p) => (p.id === id ? { ...p, ...updates } : p)),
+      }
+      saveLocal(next)
+      pushConfig(next)
+      return next
+    })
   }, [])
 
   const deleteProduct = useCallback((id: string) => {
-    setConfig((prev) => ({ ...prev, products: prev.products.filter((p) => p.id !== id) }))
+    setConfig((prev) => {
+      const next = { ...prev, products: prev.products.filter((p) => p.id !== id) }
+      saveLocal(next)
+      pushConfig(next)
+      return next
+    })
   }, [])
 
   const addNote = useCallback((note: AdminNote) => {
-    setConfig((prev) => ({ ...prev, notes: [...prev.notes, note] }))
+    setConfig((prev) => {
+      const next = { ...prev, notes: [...prev.notes, note] }
+      saveLocal(next)
+      pushConfig(next)
+      return next
+    })
   }, [])
 
   const updateNote = useCallback((id: string, updates: Partial<AdminNote>) => {
-    setConfig((prev) => ({
-      ...prev,
-      notes: prev.notes.map((n) => (n.id === id ? { ...n, ...updates } : n)),
-    }))
+    setConfig((prev) => {
+      const next = {
+        ...prev,
+        notes: prev.notes.map((n) => (n.id === id ? { ...n, ...updates } : n)),
+      }
+      saveLocal(next)
+      pushConfig(next)
+      return next
+    })
   }, [])
 
   const deleteNote = useCallback((id: string) => {
-    setConfig((prev) => ({ ...prev, notes: prev.notes.filter((n) => n.id !== id) }))
+    setConfig((prev) => {
+      const next = { ...prev, notes: prev.notes.filter((n) => n.id !== id) }
+      saveLocal(next)
+      pushConfig(next)
+      return next
+    })
   }, [])
 
   const toggleNoteActive = useCallback((id: string) => {
@@ -621,6 +698,8 @@ export function AdminProvider({ children }: { children: ReactNode }) {
         ...prev,
         notes: prev.notes.map((n) => (n.id === id ? { ...n, active: !n.active } : n)),
       }
+      saveLocal(next)
+      pushConfig(next)
       return next
     })
   }, [])
