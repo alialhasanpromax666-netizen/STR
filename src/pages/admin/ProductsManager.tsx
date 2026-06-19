@@ -54,6 +54,7 @@ export default function ProductsManager() {
       createdAt: new Date().toISOString(),
     }
     addProduct(product)
+    saveConfig()
     resetForm()
     setShowAdd(false)
   }
@@ -80,6 +81,7 @@ export default function ProductsManager() {
       stock: form.stock === '' ? null : parseInt(form.stock, 10),
       paymentMethods: formPaymentMethods,
     })
+    saveConfig()
     setEditId(null)
     resetForm()
   }
@@ -91,6 +93,7 @@ export default function ProductsManager() {
 
   function handleDelete(id: string) {
     deleteProduct(id)
+    saveConfig()
     setDeleteConfirm(null)
   }
 
@@ -114,9 +117,12 @@ export default function ProductsManager() {
     <div>
       <div className="flex items-center justify-between mb-6">
         <h2 className="h3">إدارة المنتجات</h2>
-        <button className="btn-gold text-sm" onClick={() => { resetForm(); setShowAdd(true) }}>
-          + إضافة منتج
-        </button>
+        <div className="flex gap-2">
+          <Button variant="gold" onClick={saveConfig}>حفظ</Button>
+          <button className="btn-gold text-sm" onClick={() => { resetForm(); setShowAdd(true) }}>
+            + إضافة منتج
+          </button>
+        </div>
       </div>
 
       {showAdd && (
