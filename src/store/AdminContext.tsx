@@ -6,7 +6,7 @@ const STORAGE_KEY = 'str-admin-config'
 const API_BASE = '/api'
 
 const STATUS_TRANSITIONS: Record<OrderStatus, OrderStatus[]> = {
-  pending: ['processing'],
+  pending: ['processing', 'cancelled'],
   processing: ['completed', 'cancelled'],
   completed: [],
   cancelled: [],
