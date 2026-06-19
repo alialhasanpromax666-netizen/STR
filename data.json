@@ -1,0 +1,206 @@
+{
+  "usdtRate": 130,
+  "feePercent": 1.5,
+  "services": [
+    {
+      "id": "mtn",
+      "name": "شحن MTN",
+      "active": true,
+      "maintenance": false,
+      "allowedWallets": [
+        "usdt",
+        "sham-cash",
+        "syriatel-cash",
+        "mtn-cash"
+      ]
+    },
+    {
+      "id": "syriatel",
+      "name": "شحن Syriatel",
+      "active": true,
+      "maintenance": false,
+      "allowedWallets": [
+        "usdt",
+        "sham-cash",
+        "syriatel-cash",
+        "mtn-cash"
+      ]
+    },
+    {
+      "id": "mtn-cash",
+      "name": "MTN كاش",
+      "active": true,
+      "maintenance": false,
+      "allowedWallets": []
+    },
+    {
+      "id": "syriatel-cash",
+      "name": "سريتل كاش",
+      "active": true,
+      "maintenance": false,
+      "allowedWallets": []
+    },
+    {
+      "id": "crypto-buy",
+      "name": "شراء عملات مشفرة",
+      "active": true,
+      "maintenance": false,
+      "allowedWallets": [
+        "sham-cash",
+        "syriatel-cash",
+        "mtn-cash",
+        "wal-mpgsllb09w5q"
+      ]
+    },
+    {
+      "id": "sham-cash-usd",
+      "name": "شحن Sham Cash (دولار)",
+      "active": true,
+      "maintenance": false,
+      "allowedWallets": [
+        "usdt",
+        "sham-cash-usd"
+      ]
+    },
+    {
+      "id": "sham-cash-syp",
+      "name": "شحن Sham Cash (سوري)",
+      "active": true,
+      "maintenance": false,
+      "allowedWallets": [
+        "usdt"
+      ]
+    }
+  ],
+  "heroTitle": "افضل خدمة شحن رصيد في سوريا",
+  "heroSub": "أسرع خدمة شحن رصيد وتحويل عملات رقمية في سوريا",
+  "orders": [],
+  "wallets": [
+    {
+      "id": "usdt",
+      "label": "USDT ",
+      "value": "123456789009876543",
+      "enabled": true,
+      "createdAt": "2026-05-22T09:03:06.209Z",
+      "charLimit": 0
+    },
+    {
+      "id": "sham-cash",
+      "label": "Sham Cash",
+      "value": "98765432987654ثيبلاته7654قثي",
+      "enabled": true,
+      "createdAt": "2026-05-22T09:03:07.209Z"
+    },
+    {
+      "id": "sham-cash-usd",
+      "label": "Sham Cash (دولار)",
+      "value": "",
+      "enabled": true,
+      "createdAt": "2026-05-22T17:36:39.881Z"
+    },
+    {
+      "id": "sham-cash-syp",
+      "label": "Sham Cash (سوري)",
+      "value": "",
+      "enabled": true,
+      "createdAt": "2026-05-22T17:36:40.381Z"
+    },
+    {
+      "id": "syriatel-cash",
+      "label": "سريتل كاش",
+      "value": "7634rfgt54erfgt54r",
+      "enabled": true,
+      "createdAt": "2026-05-22T09:03:08.209Z"
+    },
+    {
+      "id": "mtn-cash",
+      "label": "MTN كاش",
+      "value": "6y5trghy65t4frgbth5y4grevd",
+      "enabled": true,
+      "createdAt": "2026-05-22T09:03:09.209Z"
+    },
+    {
+      "id": "crypto-bitcoin",
+      "label": "Bitcoin (BTC)",
+      "value": "",
+      "enabled": true,
+      "createdAt": "2026-05-22T15:39:37.848Z"
+    },
+    {
+      "id": "crypto-ethereum",
+      "label": "Ethereum (ETH)",
+      "value": "",
+      "enabled": true,
+      "createdAt": "2026-05-22T15:39:37.948Z"
+    },
+    {
+      "id": "crypto-usdt",
+      "label": "Tether (USDT)",
+      "value": "",
+      "enabled": true,
+      "createdAt": "2026-05-22T15:39:38.048Z"
+    },
+    {
+      "id": "crypto-usdc",
+      "label": "USD Coin (USDC)",
+      "value": "",
+      "enabled": true,
+      "createdAt": "2026-05-22T15:39:38.148Z"
+    },
+    {
+      "id": "crypto-bnb",
+      "label": "BNB (BNB)",
+      "value": "",
+      "enabled": true,
+      "createdAt": "2026-05-22T15:39:38.248Z"
+    },
+    {
+      "id": "crypto-solana",
+      "label": "Solana (SOL)",
+      "value": "",
+      "enabled": true,
+      "createdAt": "2026-05-22T15:39:38.348Z"
+    },
+    {
+      "id": "crypto-ripple",
+      "label": "XRP (XRP)",
+      "value": "",
+      "enabled": true,
+      "createdAt": "2026-05-22T15:39:38.448Z"
+    },
+    {
+      "id": "crypto-cardano",
+      "label": "Cardano (ADA)",
+      "value": "",
+      "enabled": true,
+      "createdAt": "2026-05-22T15:39:38.548Z"
+    },
+    {
+      "id": "crypto-dogecoin",
+      "label": "Dogecoin (DOGE)",
+      "value": "",
+      "enabled": true,
+      "createdAt": "2026-05-22T15:39:38.648Z"
+    },
+    {
+      "id": "crypto-tron",
+      "label": "TRON (TRX)",
+      "value": "",
+      "enabled": true,
+      "createdAt": "2026-05-22T15:39:38.748Z"
+    },
+    {
+      "id": "wal-mpgsllb09w5q",
+      "label": "بينانس ID",
+      "value": "1234567ht54t3rdfevth5",
+      "enabled": true,
+      "createdAt": "2026-05-22T10:44:23.964Z"
+    }
+  ],
+  "blockedPhones": [
+    "123456789"
+  ],
+  "products": [],
+  "notes": [],
+  "adminHash": "$2b$10$NWHyR8D/BBvvZ1KOpuWROuA5MG2Lz7t1RZm8LZH1uwA5SmQRhxgKa"
+}
