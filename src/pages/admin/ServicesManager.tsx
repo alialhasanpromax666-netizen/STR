@@ -20,6 +20,8 @@ export default function ServicesManager() {
   const [newWalletLabel, setNewWalletLabel] = useState('')
   const [newWalletValue, setNewWalletValue] = useState('')
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null)
+  const [feeEditId, setFeeEditId] = useState<string | null>(null)
+  const [feeEditValue, setFeeEditValue] = useState('')
 
   const walletMap: Record<string, string> = {}
   for (const w of config.wallets) {
@@ -97,6 +99,23 @@ export default function ServicesManager() {
 
   const serviceCount = (id: string): number => {
     return config.orders.filter((o) => o.operator === id || o.type.includes(id)).length
+  }
+
+  function handleStartFeeEdit(id: string, currentFee: number | undefined) {
+    setFeeEditId(id)
+    setFeeEditValue(currentFee?.toString() ?? '')
+  }
+
+  function handleSaveFee(id: string) {
+    const val = feeEditValue.trim()
+    updateService(id, { feePercent: val === '' ? undefined : parseFloat(val) })
+    setFeeEditId(null)
+    setFeeEditValue('')
+  }
+
+  function handleResetFee(id: string) {
+    updateService(id, { feePercent: undefined })
+    setFeeEditId(null)
   }
 
   return (
@@ -241,6 +260,43 @@ export default function ServicesManager() {
             {serviceCount(svc.id) > 0 && (
               <p className="text-[10px] text-espresso-faint mt-2">{serviceCount(svc.id)} طلب/طلبات مرتبطة</p>
             )}
+
+            <div className="border-t border-border pt-4 mt-4">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-xs font-heading font-semibold text-espresso-muted">الرسوم (%)</span>
+                {feeEditId !== svc.id && (
+                  <button type="button"
+                    onClick={() => handleStartFeeEdit(svc.id, svc.feePercent)}
+                    className="text-xs font-heading font-medium text-gold hover:text-gold/80 transition-colors"
+                  >
+                    {svc.feePercent != null ? `${svc.feePercent}%` : 'رسوم عامة'}
+                  </button>
+                )}
+              </div>
+              {feeEditId === svc.id ? (
+                <div className="flex items-center gap-2">
+                  <input
+                    type="number"
+                    min="0"
+                    step="0.1"
+                    value={feeEditValue}
+                    onChange={(e) => setFeeEditValue(e.target.value)}
+                    className="input-luxury text-sm font-mono w-24"
+                    placeholder="0"
+                    autoFocus
+                    onKeyDown={(e) => e.key === 'Enter' && handleSaveFee(svc.id)}
+                  />
+                  <span className="text-xs text-espresso-faint">%</span>
+                  <button type="button" onClick={() => handleSaveFee(svc.id)} className="btn-gold text-xs py-1 px-3">حفظ</button>
+                  <button type="button" onClick={() => handleResetFee(svc.id)} className="text-xs text-espresso-faint hover:text-red">استعادة العامة</button>
+                  <button type="button" onClick={() => setFeeEditId(null)} className="text-espresso-faint hover:text-espresso"><XIcon size={14} /></button>
+                </div>
+              ) : (
+                <p className="text-[10px] text-espresso-faint">
+                  {svc.feePercent != null ? `رسوم هذه الخدمة: ${svc.feePercent}%` : `تستخدم الرسوم العامة: ${config.feePercent}%`}
+                </p>
+              )}
+            </div>
           </div>
         ))}
       </div>

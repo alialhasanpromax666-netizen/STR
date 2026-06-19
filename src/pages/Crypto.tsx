@@ -55,7 +55,8 @@ export default function Crypto() {
 
   const buyRate = config.buyRate || config.usdtRate || 0
   const sellRate = config.sellRate || config.usdtRate || 0
-  const feePercent = config.feePercent
+  const cryptoService = config.services.find((s) => s.id === 'crypto-buy')
+  const feePercent = cryptoService?.feePercent ?? config.feePercent
   const feeMultiplier = 1 - feePercent / 100
   const numAmount = Math.max(0, parseFloat(amount) || 0)
   const currentPriceUSD = selectedCrypto ? prices.find((p) => p.id === selectedCrypto.id)?.priceUSD ?? 0 : 0
@@ -86,7 +87,6 @@ export default function Crypto() {
 
   const walletAddressValue = getWalValue(paymentMethod)
 
-  const cryptoService = config.services.find((s) => s.id === 'crypto-buy')
   const visibleWallets = config.wallets.filter((w) => {
     if (!w.enabled) return false
     if (!cryptoService) return false

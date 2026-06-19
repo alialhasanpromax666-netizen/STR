@@ -25,7 +25,7 @@ export default function ServicePage() {
   const service = config.services.find((s) => s.id === id)
 
   const rate = config.buyRate || config.usdtRate || 0
-  const feePercent = config.feePercent
+  const feePercent = service?.feePercent ?? config.feePercent
   const feeMultiplier = 1 - feePercent / 100
   const numAmount = Math.max(0, parseFloat(amount) || 0)
   const youPayValue = numAmount

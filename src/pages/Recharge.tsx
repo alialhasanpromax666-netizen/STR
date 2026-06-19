@@ -40,13 +40,6 @@ export default function Recharge() {
 
   const isUsdMode = operator === 'sham-cash-usd'
   const rate = config.buyRate || config.usdtRate || 0
-  const feePercent = config.feePercent || 0
-  const feeMultiplier = 1 + feePercent / 100
-  const amounts = isUsdMode ? usdAmounts : sypAmounts
-  const actualAmount = Math.max(0, isCustom && customAmount ? parseFloat(customAmount) || 0 : (amount || 0))
-  const usdtPrice = rate > 0 && actualAmount
-    ? isUsdMode ? actualAmount * feeMultiplier : (actualAmount / rate) * feeMultiplier
-    : 0
 
   const rechargeServices = useMemo(() =>
     config.services.filter((s) => s.active && !s.maintenance && ['mtn', 'syriatel', 'mtn-cash', 'syriatel-cash', 'sham-cash-usd', 'sham-cash-syp'].includes(s.id)),
@@ -57,6 +50,14 @@ export default function Recharge() {
     config.services.find((s) => s.id === operator),
     [config.services, operator]
   )
+
+  const feePercent = currentService?.feePercent ?? config.feePercent
+  const feeMultiplier = 1 + feePercent / 100
+  const amounts = isUsdMode ? usdAmounts : sypAmounts
+  const actualAmount = Math.max(0, isCustom && customAmount ? parseFloat(customAmount) || 0 : (amount || 0))
+  const usdtPrice = rate > 0 && actualAmount
+    ? isUsdMode ? actualAmount * feeMultiplier : (actualAmount / rate) * feeMultiplier
+    : 0
 
   const visibleWallets = useMemo(() => {
     if (!currentService) return []

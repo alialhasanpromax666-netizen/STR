@@ -4,6 +4,7 @@ export interface ServiceStatus {
   active: boolean
   maintenance: boolean
   allowedWallets: string[]
+  feePercent?: number
 }
 
 export interface Wallet {
