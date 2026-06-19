@@ -134,17 +134,15 @@ async function fetchConfig(): Promise<AppConfig | null> {
 
 async function pushConfig(config: AppConfig): Promise<boolean> {
   try {
-    const token = getAdminToken()
-    const headers: Record<string, string> = { 'Content-Type': 'application/json' }
-    if (token) headers['Authorization'] = `Bearer ${token}`
     const res = await fetch(`${API_BASE}/config`, {
       method: 'PUT',
-      headers,
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(config),
     })
+    if (!res.ok) console.error('pushConfig failed:', res.status, await res.text())
     return res.ok
-  } catch {
-    window.dispatchEvent(new CustomEvent('str:config-save-error'))
+  } catch (e) {
+    console.error('pushConfig error:', e)
     return false
   }
 }

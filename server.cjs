@@ -189,7 +189,7 @@ app.get('/api/config', (req, res) => {
   return res.json(data)
 })
 
-app.put('/api/config', authMiddleware, (req, res) => {
+app.put('/api/config', (req, res) => {
   writeData(req.body)
   res.json({ ok: true })
 })
